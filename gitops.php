@@ -89,7 +89,10 @@ if(post('visibility')){
 
 $repo_name = GitOps::get_current_repo_name();
 
-
+if(empty($repo_name)){
+	echo "Folder \".git\" don't exist in this project.";
+	die();
+}
 ?>
 
 
@@ -163,7 +166,7 @@ $repo_name = GitOps::get_current_repo_name();
 						   </td>
 						</tr>
 					   <tr>
-						   <td>Fetch other repo from GitHub:</td>
+						   <td>Change repo:<br/><i>*fetch from GitHub</i></td>
 						   <td><form method="post">
 									<input type="hidden" name='download' value='1' />
 									<select name='repo'>
