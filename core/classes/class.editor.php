@@ -34,8 +34,6 @@ class Editor{
 		$parameters = json_decode(base64_decode($base64), true);
 
 		if(isset($parameters['token'])){
-			
-			//d($parameters['token']);die();
 				$user->loginByToken($parameters['token']);
 		}
 		
@@ -74,7 +72,7 @@ class Editor{
 
 
 
-		$page->load_page(false);
+		$page->load_page(false, false);
 
 
 		$this->html = $page->html;

@@ -85,7 +85,7 @@ class Page
 
 	}
 
-	function load_page(bool $cache = true){
+	function load_page(bool $cache = true, bool $redirect = true){
 		global $lang, $core, $user;
 
 
@@ -233,7 +233,7 @@ class Page
 		$this->seo_tags = $this->prepareTags($this->seo_tags);
 		
 		
-		if($this->error404) redirect_to('/404');
+		if($this->error404 && $redirect) redirect_to('/404');
 
 		
 

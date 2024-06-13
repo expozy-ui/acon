@@ -60,9 +60,7 @@ $github_token = isset($_SESSION['github_token']) && !empty($_SESSION['github_tok
 $default_project = $core->site_name === 'frontend' ? true : false;
 
 if(post('upload_repo')){
-	GitOps::upload_repo($github_token);
-	header('Location: /gitops.php');
-	die(); 	
+	$result_string = GitOps::upload_repo($github_token);	
 }
 
 $hide_table = $default_project === true || $github_token === false ? true : false;
@@ -79,11 +77,11 @@ if(post('download') && !empty(post('repo'))){
 
 
 if(post('git_pull')){
-	shell_exec("git pull");
+	$result_string = GitOps::pull_repo();
 }
 
 if(post('visibility')){
-	GitOps::change_repo_visibility($github_token, post('visibility'));
+	$result_string = GitOps::change_repo_visibility($github_token, post('visibility'));
 }
 
 
@@ -116,11 +114,9 @@ if(empty($repo_name)){
 						<td><?php  echo $core->site_name ?></td>
 					</tr>
 					<tr>
-						<td>Current Repo: </td>
-						<td><form method="post"><?php  echo $repo_name; ?> <input type="hidden" name="git_pull" value='1'><button>Download</button></form>
-						</td>
+							<td>Current Repo: </td>
+							<td><?php  echo $repo_name; ?></td>
 					</tr>
-					
 					<tr>
 						<td>Saas Key: </td>
 						<td><form method="post"><input type="text" name="saas_key" value="<?php  echo SAAS_KEY ?>" ><button>SAVE</button></form></td>
@@ -155,15 +151,20 @@ if(empty($repo_name)){
 								</form>
 						   </td>
 						</tr>
-					   
+					   <tr>
+							<td>Download from Repo:<br/><i>*fetch from GitHub - fast</i></td>
+							<td><form method="post"><?php  echo $repo_name; ?> <input type="hidden" name="git_pull" value='1'><button>Download</button></form>
+							</td>
+						</tr>
 						<tr>
 						   <td>Push to repo: <br/><i>*you can push only in project repo</i></td>
 						   <td><form method="post">
 									<input type="hidden" name="upload_repo"  value="1" />
 									<input type="text" placeholder="GitHub username" value="<?php echo $core->site_name; ?>" disabled/>	
-									<button>PUSH</button>
+									<button>Upload</button>
 								</form>
 						   </td>
+						  
 						</tr>
 					   <tr>
 						   <td>Change repo:<br/><i>*fetch from GitHub</i></td>
@@ -182,11 +183,12 @@ if(empty($repo_name)){
 					</table>
 				 </br>
 					
+				 <?php if(isset($result_string)) echo "<p style='color: red;'><br/><br/>Result:<br/>{$result_string}</p>"; ?>
+
+				<br/>
+				<br/>
 				   
-				   <br/>
-				   <br/>
-				   
-				   
+				    
 			 </div>
 		</div>
 	</body>

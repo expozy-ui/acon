@@ -83,6 +83,8 @@ class Template
 			if (!is_dir($this->dir_file)) {
 				mkdir($this->dir_file, 0777, true);
 			}
+			
+			$html = str_replace("<p></p>", "", $html);
 
 			$return = file_put_contents($this->file, $html);
 

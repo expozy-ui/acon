@@ -59,17 +59,19 @@ class GitOps
 				file_put_contents($file, $newContent);
 		}
 		
-		public static function upload_repo(string $github_token):void {
+		public static function upload_repo(string $github_token):string {
 				global $core;
 				
 				$owner =  self::get_current_repo_owner();
 				Api::data(['github_token'=> $github_token,'github_route' => 'create_repo', 'owner' =>$owner])->post()->git();
-
+ 
 				
-				shell_exec("git add ."); 
-				shell_exec('git commit -m "new commit"');
-				shell_exec("git remote set-url origin https://{$github_token}@github.com/{$owner}/{$core->site_name}.git");
-				shell_exec('git push -u origin main');
+				$r1 = shell_exec("git add ."); 
+				$r2 = shell_exec('git commit -m "new commit"');
+				$r3 = shell_exec("git remote set-url origin https://{$github_token}@github.com/{$owner}/{$core->site_name}.git");
+				$r4 = shell_exec('git push -u origin main');
+				
+				return "{$r1}</br>{$r2}</br>{$r3}</br>{$r4}</br>";
 		}
 		
 		private static function deleteFiles($target) {
@@ -94,7 +96,11 @@ class GitOps
 				
 		}
 		
-			
+		public static function pull_repo():string {
+				$r1 = shell_exec("git pull");
+				
+				return "{$r1}";
+		}	
 
 } 
 ?>
