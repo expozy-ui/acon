@@ -47,7 +47,7 @@ class Api
 	}
 
 	private static function _connect_core($method, $endpoint){
-		
+		global $core; 
 		
 		$id = self::$id;
 		$curent_request_cache = self::$cache;
@@ -71,7 +71,7 @@ class Api
 		//d($headers);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 		
-		$url = CORE_URL;
+		$url = isset($core->core_url) && !empty($core->core_url) ? $core->core_url : CORE_URL;
 		if(substr($url, -1) !== '/'){
 			$url .= '/';
 		}

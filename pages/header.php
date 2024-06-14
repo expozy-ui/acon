@@ -40,7 +40,7 @@
 			const SITEURL = "<?php echo $core->site_url ?>";
 			const LANG = "<?php echo $lang->language ?>";
 			const SAAS_KEY = "<?php echo SAAS_KEY ?>";
-			const COREURL = "<?php echo CORE_URL; ?>api/";
+			const COREURL = "<?php echo $core->core_url; ?>api/";
 			const LOGGED_IN = "<?php echo $user->logged_in ?>";
 			const USER_EMAIL = "<?php echo $user->email ?>";
 			const USER = <?php echo json_encode($user, JSON_UNESCAPED_UNICODE) ?>;

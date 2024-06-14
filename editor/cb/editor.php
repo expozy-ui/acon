@@ -41,7 +41,7 @@ $dir = SITEURL.'/editor/cb/';
   		const SITEURL = "<?= SITEURL ?>";
   		const LANG = "<?= $lang->language ?>";
   		const SAAS_KEY = "<?= SAAS_KEY ?>";
-  		const COREURL = "<?= CORE_URL; ?>api/"
+  		const COREURL = "<?= $core->core_url; ?>api/"
   		localStorage.setItem('token', '<?= $_SESSION['token']?>');
   	</script>
 	

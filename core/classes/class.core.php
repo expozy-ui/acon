@@ -49,7 +49,12 @@ class FrontCore
 				$this->{$key} = $row;
 			}
 		}
-
+		
+		if(isset($this->core_url) === false || empty($this->core_url)){
+			$this->core_url = CORE_URL;
+		}
+		
+		
 	}
 
 	public function get_web(){

@@ -36,7 +36,6 @@ class Cache{
 			
 			$this->file .= ".json";
 			
-			//$this->file = self::PATH.str_replace( [CORE_URL,'/', '?'], ['', '_', '_'], $url).".json";
 			$this->api_url = $url;
 			$this->api_method = $method;
 	}
