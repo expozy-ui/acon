@@ -65,6 +65,6 @@ Options -MultiViews -Indexes +FollowSymlinks
  RewriteRule ^([a-z]{2})/sitemap core/sitemaps/index.php?lang=$1 [NC,L,QSA]
  RewriteRule ^([a-z]{2})/ index.php?lang=$1 [NC,L,QSA]
  RewriteRule ^private/([a-z]{2})/ index.php?lang=$1 [NC,L,QSA]
-
+ RewriteRule ^ref/(.*) index.php?referral=$1 [NC,L,QSA]
 
 </IfModule>
