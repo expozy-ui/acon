@@ -4,15 +4,13 @@ define( "_VALID_PHP", true);
 require_once( "../core/autoload.php");
 
 
-$order_id = $_GET["order_id"];
-$lang = $_GET['lang'];
-
-$row = array(
-    'order_id' => $order_id,
-    'lang' => $lang
-);
-
-
+$row = array('lang' => $lang);
+if(isset($_GET["order_id"])){
+	$row['order_id'] = (int)$_GET["order_id"];
+}
+if(isset($_GET["deposit_id"])){
+	$row['deposit_id'] = (int)$_GET["deposit_id"];
+}
 
 $result = Api::data($row)->post()->payment_confirm();
 

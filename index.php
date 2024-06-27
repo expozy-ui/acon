@@ -14,7 +14,7 @@ foreach ($_GET as $key => $param) {
 $page->load_page();
 
 if($core->maintenance_mode == 1 && $page->slug!='demo' && !isset($_SESSION['mainanceMode'])){
-			redirect_to('/maintenance.php');
+			redirect_to('/maintenance');
 }
 
 require_once 'pages/header.php';
