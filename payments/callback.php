@@ -4,7 +4,7 @@ define( "_VALID_PHP", true);
 require_once( "../core/autoload.php");
 
 
-$row = array('lang' => $lang);
+$row = array('lang' => $_GET['lang']??'en');
 if(isset($_GET["order_id"])){
 	$row['order_id'] = (int)$_GET["order_id"];
 }
