@@ -14,7 +14,7 @@ if(isset($_GET["deposit_id"])){
 
 $result = Api::data($row)->post()->payment_confirm();
 
-if($result['redirect'] === 1){
+if(isset($result['redirect'])){
     header('Location: '.$result['redirect']);
 }
 

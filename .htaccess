@@ -51,6 +51,9 @@ Options -MultiViews -Indexes +FollowSymlinks
 
 <IfModule mod_rewrite.c>
  RewriteEngine On
+
+ RewriteRule ^ref/(.*)$ /?referral=$1 [L,R=301]
+
  RewriteRule ^logout pages/logout.php [NC,L]
 
  RewriteRule ^google_feed$ google_feed.php [NC,L]
@@ -65,6 +68,10 @@ Options -MultiViews -Indexes +FollowSymlinks
  RewriteRule ^([a-z]{2})/sitemap core/sitemaps/index.php?lang=$1 [NC,L,QSA]
  RewriteRule ^([a-z]{2})/ index.php?lang=$1 [NC,L,QSA]
  RewriteRule ^private/([a-z]{2})/ index.php?lang=$1 [NC,L,QSA]
- RewriteRule ^ref/(.*) index.php?referral=$1 [NC,L,QSA]
+
+
+
+
+
 
 </IfModule>

@@ -23,6 +23,7 @@ if(session_id() ==  ''){
 }
 
 
+
 // Include Config File
 $configFile = BASEPATH . "core/config.php";
 require_once($configFile);
@@ -34,6 +35,9 @@ require_once(BASEPATH.'core/classes/class.cache.php');
 require_once(BASEPATH.'core/helpers/functions.autoload.php');
 require_once(BASEPATH.'core/classes/class.api.php');
 
+//DDos
+require_once(BASEPATH.'ddos/class.ddos.php');
+Ddos::check();
 
 	//require_once(BASEPATH.'core/classes/class.currency.php');
 	//$cur = New Currency();

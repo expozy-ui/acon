@@ -22,9 +22,13 @@ $channel->appendChild($description);
 $link = $xml->createElement('link', $core->site_url);
 $channel->appendChild($link);
 
+$get_data = [];
+if(isset($_GET['cid'])){
+  $get_data['cid'] = (int)$_GET['cid'];
+}
 
 
-$posts = Api::cache(false)->limit(20)->sort('newest')->get()->blogPosts();
+$posts = Api::cache(false)->limit(20)->sort('newest')->data($get_data)->get()->blogPosts();
 
 if(!isset($posts['result'])) die();
 
