@@ -48,18 +48,18 @@ function initMap() {
   marker.setVisible(true);
 
   // START add an event MARKER "onDrag"
-  google.maps.event.addListener(marker, 'dragend', function() {
+  google.maps.event.addListener(marker, 'dragend', function () {
     copyMarkerpositionToInput();
   });
 
   function copyMarkerpositionToInput() {
-    if(marker.getPosition().lat() != undefined && marker.getPosition().lng() != undefined ){
+    if (marker.getPosition().lat() != undefined && marker.getPosition().lng() != undefined) {
 
       var lat = marker.getPosition().lat();
       var lng = marker.getPosition().lng();
 
       findMarkerAddress(lat, lng);
-    }else {
+    } else {
       console.log('Маркер няма стойност');
       infowindow_location.setContent("Местоположението не е намерено");
       infowindow_location.open(map);
@@ -69,8 +69,8 @@ function initMap() {
   // START add an event MARKER "onDrag"
 
 
-  function centerMarker(){
-    if(marker){
+  function centerMarker() {
+    if (marker) {
       marker.setMap(null);
     }
 
@@ -80,7 +80,7 @@ function initMap() {
       draggable: true,
     });
 
-    google.maps.event.addListener(marker, 'dragend', function() {
+    google.maps.event.addListener(marker, 'dragend', function () {
       copyMarkerpositionToInput();
     });
 
@@ -88,7 +88,7 @@ function initMap() {
   }
 
   // START MAP DRAGED REPLACE MARKER
-  google.maps.event.addListener(map, 'dragend', function() {
+  google.maps.event.addListener(map, 'dragend', function () {
     centerMarker();
   });
   // END MAP DRAGED REPLACE MARKER
@@ -96,7 +96,7 @@ function initMap() {
 
 
   // START FIND ADDRES BY MARKER
-  function findMarkerAddress(lat, lng){
+  function findMarkerAddress(lat, lng) {
 
     var latlng = new google.maps.LatLng(lat, lng);
 
@@ -122,17 +122,17 @@ function initMap() {
     const address_components = object[0].address_components;
     address_components.forEach(element => {
 
-      if(element.types[0] == "country"){
+      if (element.types[0] == "country") {
         address['country_code'] = element.short_name
         address[element.types[0]] = element.long_name;
-      }else {
-            address[element.types[0]] = element.short_name;
+      } else {
+        address[element.types[0]] = element.short_name;
       }
     });
     return address;
   }
 
-// ПРИ НАСТИКАНЕ НА БУТОН id="LOCATION"
+  // ПРИ НАСТИКАНЕ НА БУТОН id="LOCATION"
   location.addEventListener("click", () => {
     infowindow.close();
 
@@ -150,7 +150,7 @@ function initMap() {
             if (status == google.maps.GeocoderStatus.OK) {
               final_address = '';
 
-               updateInputAddress(getLongAddressObject(results));
+              updateInputAddress(getLongAddressObject(results));
 
             }
           });
@@ -178,8 +178,8 @@ function initMap() {
     infowindow_location.setPosition(pos);
     infowindow_location.setContent(
       browserHasGeolocation ?
-      "Error: The Geolocation service failed." :
-      "Error: Your browser doesn't support geolocation."
+        "Error: The Geolocation service failed." :
+        "Error: Your browser doesn't support geolocation."
     );
     infowindow_location.open(map);
   }
@@ -194,30 +194,30 @@ function initMap() {
     }
 
     geocoder
-    .geocode({
-      placeId: place.place_id
-    })
-    .then(({
-      results
-    }) => {
-      map.setZoom(11);
-      map.setCenter(results[0].geometry.location);
-      // Set the position of the marker using the place ID and location.
-      // @ts-ignore TODO This should be in @typings/googlemaps.
+      .geocode({
+        placeId: place.place_id
+      })
+      .then(({
+        results
+      }) => {
+        map.setZoom(11);
+        map.setCenter(results[0].geometry.location);
+        // Set the position of the marker using the place ID and location.
+        // @ts-ignore TODO This should be in @typings/googlemaps.
 
 
-updateInputAddress(getLongAddressObject(results));
+        updateInputAddress(getLongAddressObject(results));
 
-      centerMarker();
-    })
-    .catch((e) => window.alert("Geocoder failed due to: " + e));
+        centerMarker();
+      })
+      .catch((e) => window.alert("Geocoder failed due to: " + e));
   });
 
 
 }
 
 
-function updateInputAddress(addressObject){
+function updateInputAddress(addressObject) {
   console.log(addressObject);
   let city = document.getElementById('city');
   let post_code = document.getElementById('post_code');
@@ -226,31 +226,41 @@ function updateInputAddress(addressObject){
   let country = document.getElementById('country');
   let streetName = document.getElementById('streetName');
   let streetNumber = document.getElementById('streetNumber');
-    let country_code = document.getElementById('country_code');
+  let country_code = document.getElementById('country_code');
+
+  let dataLocation = {
+    city: addressObject.locality,
+    country: addressObject.country,
+    post_code: addressObject.postal_code,
+    streetName: addressObject.route,
+    streetNumber: addressObject.street_number,
+  }
+  dataProxy.location = dataLocation;
 
 
-  if(post_code != undefined && addressObject.postal_code != undefined){
+
+  if (post_code != undefined && addressObject.postal_code != undefined) {
     post_code.value = addressObject.postal_code;
   }
 
-  if(country != undefined && addressObject.country != undefined){
+  if (country != undefined && addressObject.country != undefined) {
     country.value = addressObject.country;
   }
 
-  if(city != undefined && addressObject.locality != undefined){
+  if (city != undefined && addressObject.locality != undefined) {
     city.value = addressObject.locality;
   }
 
-  if(streetName != undefined && addressObject.route != undefined){
+  if (streetName != undefined && addressObject.route != undefined) {
     streetName.value = addressObject.route;
   }
 
-  if(streetNumber != undefined && addressObject.street_number != undefined){
+  if (streetNumber != undefined && addressObject.street_number != undefined) {
     streetNumber.value = addressObject.street_number;
   }
 
 
-  if(country_code != undefined && addressObject.country_code != undefined){
+  if (country_code != undefined && addressObject.country_code != undefined) {
     country_code.value = addressObject.country_code;
   }
 
@@ -258,19 +268,19 @@ function updateInputAddress(addressObject){
   final_address = '';
 
   //Places
-  if(addressObject.route != undefined){ final_address += addressObject.route + ' ';}
-  if(addressObject.street_number != undefined){ final_address += addressObject.street_number + ' ';}
-  if(addressObject.postal_code != undefined){ final_address += addressObject.postal_code + ' '; }
-  if(addressObject.administrative_area_level_1 != undefined) { final_address += addressObject.administrative_area_level_1 + ' '; }
-  if(addressObject.locality != undefined) { final_address += addressObject.locality + ' '; }
-  if(addressObject.country != undefined) { final_address += addressObject.country + ' '; }
+  if (addressObject.route != undefined) { final_address += addressObject.route + ' '; }
+  if (addressObject.street_number != undefined) { final_address += addressObject.street_number + ' '; }
+  if (addressObject.postal_code != undefined) { final_address += addressObject.postal_code + ' '; }
+  if (addressObject.administrative_area_level_1 != undefined) { final_address += addressObject.administrative_area_level_1 + ' '; }
+  if (addressObject.locality != undefined) { final_address += addressObject.locality + ' '; }
+  if (addressObject.country != undefined) { final_address += addressObject.country + ' '; }
 
-  if(final_address != '' && address != undefined){
+  if (final_address != '' && address != undefined) {
     address.value = final_address;
     finalGeoAddress.value = final_address;
   }
 
-    document.getElementById('address').value = final_address;
+  document.getElementById('address').value = final_address;
 
 }
 

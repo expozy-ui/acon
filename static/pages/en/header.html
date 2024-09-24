@@ -1,11 +1,21 @@
-<div class="is-section is-box is-section-100 type-poppins box-autofit last-box scroll-target">
-    <div class="is-overlay"></div>
-    <div class="is-container v2 is-content-700 leading-14 size-18">
+<nav id="topnav" class=" top-0 is-sticky">
+    <div class="container relative flex flex-row md:flex-col lg:flex-row items-center justify-between py-4  ">
+        <img @click="forceChange('/')" :src="data.settings.logo" src="" class="inline-block dark:hidden max-h-[60px] z-20" alt="">
 
-        <div class="row">
-            <div class="column">
-                <p class="font-semibold size-200 text-red-600">HEADER3</p>
-            </div>
+        <i class="fa-solid fa-bars block  md:!hidden z-20 pr-10" @click="data.openMobileMenu =! data.openMobileMenu"></i>
+
+        <div x-transition="" x-show="(data.screenWidth < 768 &amp;&amp; data.openMobileMenu) || data.screenWidth > 767 " id="navigation" class="fixed md:static md:w-auto md:h-auto w-full h-full bg-white top-0 left-0 bg-white z-10">
+
+            <ul class="md:flex gap-6 items-center mt-[80px] md:mt-0  pt-4 md:pt-0" apidata="Menu.get_menu">
+                <template x-for="menu in data.menu">
+                    <li class="p-2  border-t md:border-none border-gray-400">
+                        <a @click="data.openMobileMenu = false" x-text="menu.title" :href="menu.link" class="menuLink sub-menu-item tracking-wide text-lg uppercase py-2 md:py-0 text-[16px] ">Начало</a>
+
+                    </li>
+                </template>
+
+            </ul>
+
         </div>
     </div>
-</div>
+</nav>

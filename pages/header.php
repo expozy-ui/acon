@@ -125,7 +125,16 @@
 	<script>
 		  tailwind.config = {
 		    darkMode: 'class',
-
+			theme: {
+				extend: {
+			colors: {
+			'primary': '#821c7e',
+			'accent': '#d51e0b',
+			'ground': '#f4f2ec',
+			
+			},
+		},
+		},
 		  }
 	</script>
 <?php } ?>

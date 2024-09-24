@@ -46,52 +46,56 @@
 
     <div class="lg:w-2/5 xl:w-1/5 hidden lg:block min-w-[450px]" apiData="Shop.get_product_filters">
         <div class=" mx-5 py-10 ">
-            <p class="text-xl font-bold  pb-2 text-slate-700 uppercase border-b-2 border-slate-800 dark:text-gray-200">Категории</p>
-            <ul class=" divide-y py-3">
-                <template x-for="category in data.categories">
-                    <li class=" w-full  ">
-                        <div class="w-full h-full px-2 flex  items-center justify-between cursor-pointer w-full h-full px-2 flex items-center justify-between cursor-pointer my-2 rounded-md shadow text-neutral-700 " @click="if(activeCategory == category.id) { activeCategory = 0; subCategory= 0} else{  activeCategory = category.id; activeSubCategory = 0}" :class="activeCategory == category.id ? 'bg-stone-900 dark:bg-gray-950 dark:text-orange-400   text-white' : 'dark:bg-gray-950 dark:text-gray-200 text-neutral-700 bg-white' ">
-                            <a @click="forceChange(category.url)" x-text="category.title" class="hover:text-orange-400 text-[14px] py-2">Tojiro Fuji</a>
-                            <template x-if="category.children">
-                                <div class="">
-                                    <span><i class="fa-solid  text-[20px]" :class="activeCategory == category.id ? 'fa-circle-chevron-left text-white' : 'fa-circle-chevron-down text-stone-900'"></i></span>
+            <template x-if="data.categories.length > 1 ">
+                <div>
+                    <p class="text-xl font-bold  pb-2 text-slate-700 uppercase border-b-2 border-slate-800 dark:text-gray-200">Категории</p>
+                    <ul class=" divide-y py-3">
+                        <template x-for="category in data.categories">
+                            <li class=" w-full  ">
+                                <div class="w-full h-full px-2 flex  items-center justify-between cursor-pointer w-full h-full px-2 flex items-center justify-between cursor-pointer my-2 rounded-md shadow text-neutral-700 " @click="if(activeCategory == category.id) { activeCategory = 0; subCategory= 0} else{  activeCategory = category.id; activeSubCategory = 0}" :class="activeCategory == category.id ? 'bg-stone-900 dark:bg-gray-950 dark:text-orange-400   text-white' : 'dark:bg-gray-950 dark:text-gray-200 text-neutral-700 bg-white' ">
+                                    <a @click="forceChange(category.url)" x-text="category.title" class="hover:text-orange-400 text-[14px] py-2">Tojiro Fuji</a>
+                                    <template x-if="category.children">
+                                        <div class="">
+                                            <span><i class="fa-solid  text-[20px]" :class="activeCategory == category.id ? 'fa-circle-chevron-left text-white' : 'fa-circle-chevron-down text-stone-900'"></i></span>
+                                        </div>
+                                    </template>
                                 </div>
 
-                            </template>
-                        </div>
-
-                        <!-- Правим проверка дали главната категорията е с ид = ид на страницата  -->
-                        <template x-if="if(category.id == data.corePage.target_id){ activeCategory = category.id }"></template>
-
-                        <template x-if="category.children">
-                            <div x-show="activeCategory == category.id">
-                                <div class=" bg-neutral-50 dark:bg-gray-950 px-1 drop-shadow border border-neutral-100">
-                                    <ul class="divide-y">
-                                        <template x-for="subCategory in category.children">
-                                            <li class="p-1" :class="activeSubCategory == subCategory.id ? 'bg-stone-900 dark:bg-gray-950 text-white dark:text-orange-400' : 'bg-unset '">
-                                                <template x-if="if(subCategory.id == data.corePage.target_id){ activeCategory = category.id; activeSubCategory = subCategory.id  }"></template>
-                                                <a x-text="subCategory.title" @click="forceChange(subCategory.url)" class="hover:text-orange-400 text-[14px] cursor-pointer"></a>
-                                            </li>
-                                        </template>
-                                    </ul>
-                                </div>
-                            </div>
+                                <template x-if="if(category.id == data.corePage.target_id){ activeCategory = category.id }"></template>
+                                <template x-if="category.children">
+                                    <div x-show="activeCategory == category.id">
+                                        <div class=" bg-neutral-50 dark:bg-gray-950 px-1 drop-shadow border border-neutral-100">
+                                            <ul class="divide-y">
+                                                <template x-for="subCategory in category.children">
+                                                    <li class="p-1" :class="activeSubCategory == subCategory.id ? 'bg-stone-900 dark:bg-gray-950 text-white dark:text-orange-400' : 'bg-unset '">
+                                                        <template x-if="if(subCategory.id == data.corePage.target_id){ activeCategory = category.id; activeSubCategory = subCategory.id  }"></template>
+                                                        <a x-text="subCategory.title" @click="forceChange(subCategory.url)" class="hover:text-orange-400 text-[14px] cursor-pointer"></a>
+                                                    </li>
+                                                </template>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </template>
+                            </li>
                         </template>
+                    </ul>
+                </div>
+            </template>
 
-                    </li>
-                </template>
-            </ul>
+            <template x-if="data.product_filters.brands.lenth > 1">
 
-            <p class="text-xl font-bold  pb-2 text-slate-700 uppercase border-b-2 border-slate-800 dark:text-gray-200">Марка</p>
-            <div>
-                <select class="border border-slate-300 px-3 my-[20px] rounded-[5px] w-full py-2 dark:bg-gray-950" name="" @change="alpineListeners('Shop.get_products', $event)">
-                    <option data-brands="empty" :data-search="data.search.search" value="">Всички</option>
-                    <template x-for="brand in data.product_filters.brands">
-                        <option :data-brands="brand.id" :selected="data.pageUrl.brands == brand.id" x-text="brand.title" :value="brand.id">10</option>
-                    </template>
-                </select>
-
-            </div>
+                <div>
+                    <p class="text-xl font-bold  pb-2 text-slate-700 uppercase border-b-2 border-slate-800 dark:text-gray-200">Марка</p>
+                    <div>
+                        <select class="border border-slate-300 px-3 my-[20px] rounded-[5px] w-full py-2 dark:bg-gray-950" name="" @change="alpineListeners('Shop.get_products', $event)">
+                            <option data-brands="empty" :data-search="data.search.search" value="">Всички</option>
+                            <template x-for="brand in data.product_filters.brands">
+                                <option :data-brands="brand.id" :selected="data.pageUrl.brands == brand.id" x-text="brand.title" :value="brand.id">10</option>
+                            </template>
+                        </select>
+                    </div>
+                </div>
+            </template>
 
             <p class="text-xl font-bold  pb-2 text-slate-700 uppercase border-b-2 border-slate-800 dark:text-gray-200">Тагове</p>
             <div>

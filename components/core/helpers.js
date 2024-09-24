@@ -14,15 +14,20 @@ let Helpers = {
 			if (e.name != '') {
 
 				if (e.name.endsWith('[]') && e.type != 'file') {
-					if (object[e.name] !== undefined) {
-						if (e.value != '') {
-							object[e.name].push(e.value);
-						}
-					} else {
-						if (e.value != '') {
-							object[e.name] = [e.value];
+
+
+					if (e.checked) {
+						if (object[e.name] !== undefined) {
+							if (e.value != '') {
+								object[e.name].push(e.value);
+							}
+						} else {
+							if (e.value != '') {
+								object[e.name] = [e.value];
+							}
 						}
 					}
+
 				} else if (e.type == 'radio') {
 					if (e.checked == true) {
 
@@ -30,7 +35,8 @@ let Helpers = {
 					}
 				} else if (e.type == 'checkbox') {
 
-					object[e.name] = e.checked;
+					let currentValue = e.checked ? 1 : 0;
+					object[e.name] = currentValue;
 				} else if (e.type == 'file') {
 
 					if (e.files[1] != undefined) {
@@ -49,7 +55,7 @@ let Helpers = {
 
 
 				} else {
-					if (e.value != 'dontSelect') {
+					if (e.value != 'dontSelect' && e.value != 'empty') {
 						// if(e.value != ''){
 						object[e.name] = e.value;
 						// }
@@ -60,6 +66,8 @@ let Helpers = {
 
 
 		}
+
+
 		return object;
 	},
 

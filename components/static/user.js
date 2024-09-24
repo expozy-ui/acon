@@ -77,7 +77,7 @@ export let User = {
 		response = api.response;
 
 		if (api.response.status == 1) {
-			response = await User.get_accounts();
+			response = await User.get_my_addresses();
 		}
 
 		return response;
@@ -97,7 +97,7 @@ export let User = {
 		response = api.response;
 
 		if (api.response.status == 1) {
-			response = await User.get_accounts();
+			response = await User.get_my_addresses();
 		}
 		return response;
 	},
@@ -117,6 +117,28 @@ export let User = {
 
 		response['obj'] = api.response;
 		response.keyName = 'user';
+
+		// if("keyName" in options && options['keyName'] != '' && options['keyName'] != null) response.keyName = options['keyName'];
+		if (options != undefined) {
+			if ("initial" in options && options['initial'] == true) return Handler.responseHandler(response);
+		}
+
+
+		return response;
+	},
+
+	get_my_addresses: async function (data, options) {
+		let response = [];
+
+
+		let api = new ApiClass();
+		await api.get('my_addresses', false);
+
+		if (!api.response) return response['internalError'] = 'No response from api for Users.my_addresses';
+
+
+		response['obj'] = api.response;
+		response.keyName = 'my_addresses';
 
 		// if("keyName" in options && options['keyName'] != '' && options['keyName'] != null) response.keyName = options['keyName'];
 		if (options != undefined) {

@@ -1,16 +1,16 @@
-<?php echo '<?xml version="1.0" encoding="UTF-8"?>' ?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<?php 
-define( "_VALID_PHP", true);
+<?php define( "_VALID_PHP", true);
 require_once '../autoload.php';
-CommonMarkheader('Content-type: application/xml');
+header('Content-type: application/xml');
+echo '<?xml version="1.0" encoding="UTF-8"?>' ?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<?php 
+
 
 //$products = [];
 $page = 1;
 $total_pages = 0;
 do{
 	
-	$result = Api::data(['page' => $page ])->get()->products();
+	$result = Api::cache(false)->data(['page' => $page])->get()->products();
 	
 	$total_pages = $result['pagination']['total_pages'];
 	//$products = array_merge($products,  $result['result']);

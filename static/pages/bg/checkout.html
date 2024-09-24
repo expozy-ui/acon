@@ -1,7 +1,7 @@
 <!-- REDIRECT TO HOME IF NO PRODUCTS -->
 <div x-init="!data.cart.products[0] ? forceChange('/') : '' " apiData="Payments.get_payment_methods"></div>
 
-<div class="w-full dark:bg-gray-900" x-data="{ comment: '' }">
+<div apiData="User.get_my_addresses" class="w-full dark:bg-gray-900" x-data="{ comment: '' }">
 
     <div class="w-full lg:w-4/6 xl:w-3/6 bg-white dark:bg-gray-900 px-2 sm:px-10 lg:hidden">
         <div class="py-[30px] flex justify-center">
@@ -27,7 +27,11 @@
 
             </div>
 
-            <div x-data="{shipTo: '', wantInvoice: false, pickAddress: false, addAddress:false, selectedAddress:data.user.addresses[0] }">
+            <div x-data="{shipTo: '', wantInvoice: false, pickAddress: false, addAddress:false, selectedAddress:undefined }">
+                <template x-if="data.my_addresses[0]">
+                    <div x-init="selectedAddress = data.my_addresses[0]"></div>
+
+                </template>
                 <form>
                     <input type="hidden" name="comment" :value="comment">
                     <div>
@@ -148,7 +152,7 @@
 
                             <!-- СПИСЪК С АДРЕСИ КОЙТО ПОТРЕБИТЕЛЯ ДА ИЗБЕРЕ  -->
                             <div x-show="pickAddress" class="bg-white dark:bg-gray-900 rounded-xl drop-shadow shadow-xl p-5 divide-y">
-                                <template x-for="(address, index) in data.user.addresses" key="index">
+                                <template x-for="(address, index) in data.my_addresses" key="index">
 
                                     <label class="text-gray-700 w-full  flex items-center justify-start gap-3 p-2 hover:bg-amber-100 dark:hover:bg-gray-950" @click="selectedAddress = address; pickAddress = false; addAddress = false;">
                                         <input type="radio" name="selectedAddress" :checked="index == 0" class="scale-150" />
@@ -167,7 +171,7 @@
                             </div>
                             <!--END  СПИСЪК С АДРЕСИ КОЙТО ПОТРЕБИТЕЛЯ ДА ИЗБЕРЕ  -->
 
-                            <div x-show="!dataProxy.user.logged_in || !data.user.addresses[0]  || (dataProxy.user.logged_in && addAddress)" :class="addAddress ? 'bg-white dark:bg-gray-900 rounded-xl drop-shadow shadow-xl p-5 ' : ''">
+                            <div x-show="!dataProxy.user.logged_in || !data.my_addresses[0]  || (dataProxy.user.logged_in && addAddress)" :class="addAddress ? 'bg-white dark:bg-gray-900 rounded-xl drop-shadow shadow-xl p-5 ' : ''">
 
                                 <div class="col-span-2 pt-3">
                                     <div class="flex mb-2">
@@ -225,7 +229,7 @@
 
                                             <template x-if="data.user.logged_in">
                                                 <div class="col-span-1">
-                                                    <button @click="await alpineListeners('User.post_user_address', $event); selectedAddress = data.user.addresses[0]; addAddress = false; pickAddress = false" name="button" class=" w-full py-2 bg-stone-900 dark:bg-gray-900 text-white hover:bg-stone-800">Запиши</button>
+                                                    <button @click="await alpineListeners('User.post_user_address', $event); selectedAddress = data.my_addresses[0]; addAddress = false; pickAddress = false" name="button" class=" w-full py-2 bg-stone-900 dark:bg-gray-900 text-white hover:bg-stone-800">Запиши</button>
                                                 </div>
                                             </template>
 
@@ -574,8 +578,8 @@
             </div>
         </div>
     </div>
-
 </div>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCXv2aq9j2fYGgYkqac9QP41zqOTJRmWB8&callback=initMap&libraries=places&v=weekly&language=bg" defer></script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCv3FNDZvaRSCPmk1LF5QsW5OhiJyPGkoE&callback=initMap&libraries=places&v=weekly&language=bg" defer></script>
 <link rel="stylesheet" href="/assets/plugins/google_map/geolocation.css">
 <script src="/assets/plugins/google_map/geolocation.js" charset="utf-8"></script>

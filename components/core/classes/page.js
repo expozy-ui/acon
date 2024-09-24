@@ -97,7 +97,10 @@ export class PageClass {
 
 		this.updateMeta();
 
-		let response_html = await fetch(this.get_template_url());
+		// let response_html = await fetch(this.get_template_url());
+
+		let template_url = this.get_template_url();
+		let response_html = await fetch(`${template_url}?v=${JS_VERSION}`);
 
 		if (response_html.status == 200) {
 			let html = await response_html.text(); // Returns it as Promise
@@ -194,7 +197,10 @@ export class PageClass {
 		const lastElementString = lastElement.outerHTML;
 		let html = '';
 
-		let response = await fetch(this.get_template_url());
+		// let response = await fetch(this.get_template_url());
+
+		let template_url = this.get_template_url();
+		let response = await fetch(`${template_url}?v=${JS_VERSION}`);
 
 		if (response.status == 200) {
 			let html = await response.text(); // Returns it as Promise
@@ -230,19 +236,19 @@ export class PageClass {
 
 
 	get_template_url() {
-		
-		if(this.private){
+
+		if (this.private) {
 			return `${SITEURL}/pages/privatejs.php?lang=${this.lang}&slug=${this.slug}`;
-			
+
 		} else {
 			return `${SITEURL}/static/pages/${this.lang}/${this.slug}.html`;
 		}
-		
+
 	}
 
 	get_css_url() {
 
-		return `${SITEURL}/static/css/${this.lang}/${this.slug}.css`;
+		return `${SITEURL}/static/css/${this.lang}/${this.slug}.css?v=${JS_VERSION}`;
 	}
 
 

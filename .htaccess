@@ -52,6 +52,10 @@ Options -MultiViews -Indexes +FollowSymlinks
 <IfModule mod_rewrite.c>
  RewriteEngine On
 
+ # Пренасочване от /bg/ към /en/
+ RewriteCond %{REQUEST_URI} ^/bg/ [NC]
+ RewriteRule ^bg/(.*)$ /en/$1 [R=301,L]
+
  RewriteRule ^ref/(.*)$ /?referral=$1 [L,R=301]
 
  RewriteRule ^logout pages/logout.php [NC,L]
@@ -65,7 +69,7 @@ Options -MultiViews -Indexes +FollowSymlinks
  RewriteRule ^([a-z]{2})/sitemaps/sitemap_products core/sitemaps/sitemap_products.php?lang=$1 [NC,L,QSA]
  RewriteRule ^([a-z]{2})/sitemaps/sitemap_pages core/sitemaps/sitemap_pages.php?lang=$1 [NC,L,QSA]
  RewriteRule ^([a-z]{2})/sitemaps/sitemap_blog core/sitemaps/sitemap_blog.php?lang=$1 [NC,L,QSA]
- RewriteRule ^([a-z]{2})/sitemap core/sitemaps/index.php?lang=$1 [NC,L,QSA]
+ RewriteRule ^sitemap core/sitemaps/index.php?lang=$1 [NC,L,QSA]
  RewriteRule ^([a-z]{2})/ index.php?lang=$1 [NC,L,QSA]
  RewriteRule ^private/([a-z]{2})/ index.php?lang=$1 [NC,L,QSA]
 

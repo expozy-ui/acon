@@ -4,3 +4,4 @@
   <?php echo  '<div x-init="callBackMain()"></div>' ?>
  
 </div>
+<?php echo $page->script ?>

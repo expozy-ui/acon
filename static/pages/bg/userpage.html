@@ -317,12 +317,12 @@
                 <!-- END ============== orders =============== -->
 
                 <!-- ============== addresses =============== -->
-                <div x-show="tab == 'addresses'" x-data="{show_add_address:false}">
+                <div x-show="tab == 'addresses'" x-data="{show_add_address:false}" apiData="User.get_my_addresses">
                     <div class="shadow-2xl py-3 mb-2 px-3 bg-white dark:bg-gray-950 rounded-[15px]">
                         <div>
 
                             <div class="flex flex-wrap gap-3">
-                                <template x-for="address in data.user.addresses">
+                                <template x-for="address in data.my_addresses">
 
                                     <div class="rounded-[15px] relative shadow-xl bg-[#f7f8f7] dark:bg-gray-800 dark:text-gray-200 w-[300px]  p-5 ">
                                         <div class="flex gap-3">

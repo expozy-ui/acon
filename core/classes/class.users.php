@@ -48,7 +48,7 @@ class Users
 	{
 
 		if(isset($_SESSION['email']) && $_SESSION['email'] != "") {
-			$row = $this->get_user_info($_SESSION['email']);
+			$row = $this->get_user_info();
 
 			$this->id = $row['id'];
 			$this->email = $row['email'];
@@ -67,7 +67,7 @@ class Users
 			return true;
 		} else {
 			if(isset($_COOKIE['email'])){
-				$row = $this->get_user_info($_COOKIE['email']);
+				$row = $this->get_user_info();
 				$this->id = $_SESSION['uid'] = $row['id'];
 				$this->email = $_SESSION['email'] = $row['email'];
 				$this->names = $_SESSION['names'] = $row['first_name'] . ' ' . $row['last_name'];
@@ -122,7 +122,6 @@ class Users
 				$this->balance = $_SESSION['balance'] = $row['balance'];
 				$this->userlevel = $_SESSION['userlevel'] = $row['userlevel'];
 				$this->lastlogin = date('Y-m-d H:i:s');
-				$_SESSION['site_id'] = $core->site_id;
 				$this->token = $_SESSION['token'] = $result['token'];
 			}
 
@@ -157,23 +156,26 @@ class Users
 		return $return;
 	}
 	
-	public function loginByToken(string $token)
+	public function loginByToken(string $token):bool
 	{
 		global $core;
 
-		$row = Api::get()->users();
+		$row = Api::data(['token'=>$token])->post()->token_verify();
+		//$row = Api::get()->users();
 
-		if(!$row || is_array($row) == false) return;
+		if(!isset($row['status']) || $row['status'] ==0) return false;
 
 		$this->logged_in = true;
-		$this->id = $_SESSION['uid'] = $row['id'];
-		$this->email = $_SESSION['email'] = $row['email'];
-		$this->names = $_SESSION['names'] = $row['first_name'] . ' ' . $row['last_name'];
-		$this->balance = $_SESSION['balance'] = $row['balance'];
-		$this->userlevel = $_SESSION['userlevel'] = $row['userlevel'];
+		$this->id = $_SESSION['uid'] = $row['user']['id'];
+		$this->email = $_SESSION['email'] = $row['user']['email'];
+		$this->names = $_SESSION['names'] = $row['user']['first_name'] . ' ' . $row['user']['last_name'];
+		$this->balance = $_SESSION['balance'] = $row['user']['balance'];
+		$this->userlevel = $_SESSION['userlevel'] = $row['user']['userlevel'];
 		$this->lastlogin = date('Y-m-d H:i:s');
 		$_SESSION['site_id'] = $core->site_id;
-		$this->token = $_SESSION['token'] = $row['token'];
+		$this->token = $_SESSION['token'] = $token;
+		
+		return true;
 
 	}
 
@@ -207,9 +209,9 @@ class Users
 	 *
 	 * @return array|bool|int|null
 	========================================================== */
-	public function get_user_info($email)
+	public function get_user_info()
 	{
-		return Api::data(['email'=>$email])->get()->accounts();
+		return Api::get()->accounts();
 	}
 
 

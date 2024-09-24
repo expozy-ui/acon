@@ -27,6 +27,17 @@
 
 
 
+.menuLink:after {
+  display: block;
+  content: '';
+  border-bottom: solid 3px #821c7e;
+  transform: scaleX(0);
+  transition: transform 250ms ease-in-out;
+}
+
+.menuLink:hover:after {
+  transform: scaleX(1);
+}
 
 /*
     @font-face {

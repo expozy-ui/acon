@@ -10,6 +10,3 @@ session_destroy();
 	document.location.href="/";
 
 </script>
-
-
-<?php
